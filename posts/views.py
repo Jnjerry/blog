@@ -74,3 +74,9 @@ def post_delete(request, id=None):
 	return redirect("posts:list")
 
 
+
+def home(request):
+	 return render(request,#takes the HTTPRequest
+      'index.html',#HTML template
+      )
+

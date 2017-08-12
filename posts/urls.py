@@ -7,6 +7,7 @@ from .views import (
 	post_detail,
 	post_update,
 	post_delete,
+    home,
 	)
 
 urlpatterns = [
@@ -15,5 +16,6 @@ urlpatterns = [
     url(r'^detail/(?P<id>\d+)/$', post_detail, name='detail'),
     url(r'^update/(?P<id>\d+)/$', post_update, name='update'),
     url(r'^delete/(?P<id>\d+)/$', post_delete),
+	url(r'^home/$', home,name='home'),
     #url(r'^posts/$', "<appname>.views.<function_name>"),
 ]
