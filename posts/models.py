@@ -14,7 +14,7 @@ class Post(models.Model):
                             height_field="height_field")
     height_field=models.IntegerField(default=0)
     width_field=models.IntegerField(default=0)
-    slug=models.SlugField(unique=True)
+    
     content=models.TextField(max_length=1000,)
     timestamp=models.DateTimeField(auto_now=False,auto_now_add=True,blank=True,null=True)
     update=models.DateTimeField(auto_now=False,auto_now_add=False,blank=True,null=True)
