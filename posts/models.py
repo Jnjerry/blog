@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
+from django.utils import timezone
 def upload_location(instance, filename):
     #filebase, extension = filename.split(".")
     #return "%s/%s.%s" %(instance.id, instance.id, extension)
@@ -14,7 +16,7 @@ class Post(models.Model):
                             height_field="height_field")
     height_field=models.IntegerField(default=0)
     width_field=models.IntegerField(default=0)
-    
+
     content=models.TextField(max_length=1000,)
     timestamp=models.DateTimeField(auto_now=False,auto_now_add=True,blank=True,null=True)
     update=models.DateTimeField(auto_now=False,auto_now_add=False,blank=True,null=True)
@@ -28,3 +30,20 @@ class Post(models.Model):
 
     class Meta:
         ordering=["-timestamp","-update"]
+
+
+class Comment(models.Model):
+    post=models.ForeignKey('Post',related_name="comments")
+    author = models.CharField(max_length=200)
+    text= models.TextField()
+    created_date=models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=False)
+
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+
+    def __str__(self):
+         return self.text
+    def approved_comments(self):
+        return self.comments.filter(approved_comment=True)

@@ -5,7 +5,17 @@
 
        <div class="panel panel-primary">
   <div class="panel-heading">{{post.title}}</div>
-  <div class="panel-body">{{post.content}}</div>
+  <div class="panel-body">{{post.content}}
+
+    <a href="https://www.facebook.com/sharer/sharer.php?u= {{request.build_absolute_uri}}">
+Share on Facebook
+</a>
+    <a href=" {{request.build_absolute_uri}}">
+Share on Twitter
+</a>
+    <a href='https://plus.google.com/share?url= {{request.build_absolute_uri}}'/>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url= {{request.build_absolute_uri}}">
+Share on LinkedIn</div>
 </div>
     </div>
 
@@ -13,7 +23,31 @@
 
        <div class="panel panel-default">
   <div class="panel-heading">{{post.title}}</div>
-  <div class="panel-body">{{post.content}}</div>
+  <div class="panel-body">{{post.content}}
+
+
+  <hr>
+      <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+     {% for comment in post.comments.all %}
+    {% if user.is_authenticated or comment.approved_comment %}
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            {% if not comment.approved_comment %}
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+            {% endif %}
+        </div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+    {% endif %}
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+  </div>
+
 </div>
     </div>
 
